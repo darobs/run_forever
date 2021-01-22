@@ -1,10 +1,10 @@
 use chrono::Utc;
-use signal_hook::{iterator::Signals, SIGINT, SIGTERM};
+use signal_hook::{iterator::Signals, consts::TERM_SIGNALS};
 use std::error::Error;
 
-fn main() -> Result<(), Box<Error>> {
+fn main() -> Result<(), Box<dyn Error>> {
     println!("Started forever loop: [{}]", Utc::now());
-    let signals = Signals::new(&[SIGINT, SIGTERM])?;
+    let mut signals = Signals::new(TERM_SIGNALS)?;
 
     for sig in signals.forever() {
         println!("Received signal {:?} at [{}]", sig, Utc::now());
